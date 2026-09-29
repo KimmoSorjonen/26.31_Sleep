@@ -58,7 +58,7 @@ f.upp <- r.upp+1*(r.upp-r.low) ## room for text
 tic <- 0.2 ## distance, tics
 
 if(dev.cur()==2) dev.off() ## removing earlier plots
-par(mar=c(1,1,1.2,0), oma=c(1.5,4,0,1), mfrow=c(1,2)) ## setting margins and layout
+par(mar=c(1,1,1.2,0), oma=c(1.5,4,0,1), mfrow=c(2,1)) ## setting margins and layout
 
 for(i in 1:2){ ## 1. ST -> LO; 2. LO -> ST
   
@@ -74,9 +74,10 @@ for(i in 1:2){ ## 1. ST -> LO; 2. LO -> ST
   
   mtext(panlab[i],3, line=0.2, cex=cx) ## panel label
   
-  axis(1,at=seq(r.low,r.upp,tic),labels=seq(r.low,r.upp,tic), cex.axis=cx) ## x-labels
-  axis(2,at=1:8,labels=F, las=1, cex.axis=cx) ## y-tics
-  if(i==1) axis(2,at=1:8,labels=slab, las=1, cex.axis=cx) ## y-labels
+  axis(1,at=seq(r.low,r.upp,tic),labels=F, cex.axis=cx) ## x-labels
+  if(i==2) axis(1,at=seq(r.low,r.upp,tic),labels=seq(r.low,r.upp,tic), cex.axis=cx) ## x-labels
+  #axis(2,at=1:8,labels=F, las=1, cex.axis=cx) ## y-tics
+  axis(2,at=1:8,labels=slab, las=1, cex.axis=cx) ## y-labels
   
   lines(c(0,0),c(-1,15),col="gray") ## vertical gray line at x=0
   
@@ -176,34 +177,16 @@ st1 ~~ 1*st1
 st2 ~~ 1*st2
 st3 ~~ 1*st3
 
-## Intercepts
-
-x1 ~ 0*1
-x2 ~ 0*1
-x3 ~ 0*1
-
-y1 ~ 0*1
-y2 ~ 0*1
-y3 ~ 0*1
-
-tx ~ 0*1
-ty ~ 0*1
-
-st1 ~ 0*1
-st2 ~ 0*1
-st3 ~ 0*1
-
 "
 
 names(df) <- c("x1","y1","x2","y2","x3","y3") ## igd as X and sleep as Y
-fit <- lavaan(mosla, data=df) ## fitting mosla
+
+fit <- lavaan(mosla, meanstructure=F, data=df) ## fitting mosla
 summary(fit, fit.measures=T, standardized=T, ci=T) ## let's have a look
+
 
 
 ########################## MISCHIEF MANAGED #########################
 
 ############################# AU REVOIR #############################
-
-
-
 
